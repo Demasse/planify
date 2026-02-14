@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] p-3 mb-10 border border-slate-100 focus-within:border-indigo-200 transition-all">
+    <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] p-3 mb-8 border border-slate-100 focus-within:border-indigo-200 transition-all">
         <form wire:submit.prevent="addTask" class="flex flex-col sm:flex-row gap-2">
             <input wire:model="label" type="text" placeholder="Qu'allez-vous accomplir ?"
                 class="flex-1 border-none bg-transparent py-4 px-6 text-slate-700 font-semibold placeholder:text-slate-400 focus:ring-0 text-lg">
@@ -52,6 +52,21 @@
                 </button>
             </div>
         </form>
+    </div>
+
+    <div class="flex gap-2 mb-6 bg-slate-100/50 p-1.5 rounded-2xl w-fit">
+        <button wire:click="$set('filter', 'all')"
+            class="px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all {{ $filter === 'all' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">
+            Toutes
+        </button>
+        <button wire:click="$set('filter', 'todo')"
+            class="px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all {{ $filter === 'todo' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">
+            À faire
+        </button>
+        <button wire:click="$set('filter', 'completed')"
+            class="px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all {{ $filter === 'completed' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">
+            Faites
+        </button>
     </div>
 
     <div class="grid gap-4">
@@ -93,8 +108,37 @@
                 ✨
             </div>
             <h3 class="text-xl font-black text-slate-800 tracking-tight">C'est le calme plat...</h3>
-            <p class="text-slate-400 font-medium max-w-xs mx-auto mt-2">Votre liste est vide. Planifiez quelque chose de grand aujourd'hui !</p>
+            <p class="text-slate-400 font-medium max-w-xs mx-auto mt-2">Aucune tâche ne correspond à ce filtre.</p>
         </div>
     @endforelse
     </div>
+
+
+
+<div x-data="{
+        show: false,
+        message: '',
+        timeout: null
+    }"
+    x-on:notify.window="
+        show = true;
+        message = $event.detail.message;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => show = false, 3000)
+    "
+    x-show="show"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 translate-y-10"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed bottom-10 left-1/2 -translate-x-1/2 z-50"
+    style="display: none;">
+
+    <div class="bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10">
+        <div class="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+        <span class="text-sm font-bold tracking-wide" x-text="message"></span>
+    </div>
+</div>
 </div>
