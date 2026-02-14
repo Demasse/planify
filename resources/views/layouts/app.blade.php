@@ -32,22 +32,27 @@
                             </a>
                         </div>
 
-                        <div class="flex items-center sm:ms-6">
-                            <div class="flex items-center gap-4 bg-white/50 border border-slate-200 p-1.5 rounded-2xl">
-                                <span class="pl-3 text-sm font-bold text-slate-600">{{ Auth::user()->name }}</span>
+                        <div class="flex items-center gap-2 bg-white/50 border border-slate-200 p-1.5 rounded-2xl">
+    <a href="{{ route('profile') }}" class="flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-xl hover:bg-white transition-all group">
+        <span class="text-sm font-bold text-slate-600 group-hover:text-indigo-600">{{ Auth::user()->name }}</span>
+        <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+        </div>
+    </a>
 
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="bg-slate-900 text-white p-2.5 rounded-xl hover:bg-red-500 transition-colors shadow-sm">
-                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                        </svg>
-                                    </button>
+    <div class="w-[1px] h-6 bg-slate-200 mx-1"></div>
 
-                                </form>
-                                
-                            </div>
-                        </div>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="bg-slate-900 text-white p-2.5 rounded-xl hover:bg-red-500 transition-all shadow-sm active:scale-90">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+        </button>
+    </form>
+</div>
                     </div>
                 </div>
             </nav>
