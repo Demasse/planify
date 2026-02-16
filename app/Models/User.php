@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getPhotoUrl()
+    {
+        if ($this->profile_photo_path) {
+            // On force le chemin vers /storage/
+            return url('storage/' . $this->profile_photo_path);
+        }
+
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=6366f1&color=fff';
+    }
 }

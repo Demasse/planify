@@ -19,6 +19,7 @@
 
         <style>
             body { font-family: 'Plus Jakarta Sans', sans-serif; }
+            /* Effet de flou sur la navigation (Glassmorphism) */
             .glass-nav {
                 background: rgba(255, 255, 255, 0.7);
                 backdrop-filter: blur(12px);
@@ -41,6 +42,7 @@
             <nav class="sticky top-0 z-40 glass-nav transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-20 items-center">
+
                         <div class="flex items-center">
                             <a href="{{ route('dashboard') }}" class="flex items-center gap-2 sm:gap-3">
                                 <div class="w-9 h-9 sm:w-10 sm:h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-100 dark:shadow-none flex-shrink-0">
@@ -51,6 +53,7 @@
                         </div>
 
                         <div class="flex items-center gap-1 sm:gap-2 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-1 sm:p-1.5 rounded-2xl transition-all">
+
                             <button onclick="let isDark = document.documentElement.classList.toggle('dark'); localStorage.setItem('dark-mode', isDark);"
                                 class="p-2 text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,12 +70,11 @@
                                 <span class="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 hidden sm:inline">
                                     {{ Auth::user()->name }}
                                 </span>
-                                <div class="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 dark:text-slate-500 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
+
+                                <div class="w-8 h-8 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0 group-hover:border-indigo-500 transition-colors">
+                                    <img src="{{ Auth::user()->getPhotoUrl() }}" class="w-full h-full object-cover" alt="Photo de {{ Auth::user()->name }}">
                                 </div>
-                            </a>
+                                </a>
 
                             <div class="w-[1px] h-6 bg-slate-200 dark:bg-slate-700 mx-0.5 sm:mx-1"></div>
 
