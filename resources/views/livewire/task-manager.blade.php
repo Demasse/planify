@@ -12,7 +12,24 @@
                 </svg>
             </button>
         </div> --}}
+<div class="flex items-center justify-between mb-8 bg-white dark:bg-slate-800 p-2 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
+    <button wire:click="previousDay()" class="p-3 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-2xl transition-all text-slate-400">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" /></svg>
+    </button>
 
+    <div class="text-center cursor-pointer" wire:click="goToToday()">
+        <h2 class="text-slate-900 dark:text-white font-black tracking-tight">
+            {{ \Carbon\Carbon::parse($selectedDate)->isToday() ? "Aujourd'hui" : (\Carbon\Carbon::parse($selectedDate)->isTomorrow() ? "Demain" : \Carbon\Carbon::parse($selectedDate)->translatedFormat('d F')) }}
+        </h2>
+        <p class="text-[10px] text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest">
+            {{ \Carbon\Carbon::parse($selectedDate)->translatedFormat('l') }}
+        </p>
+    </div>
+
+    <button wire:click="nextDay()" class="p-3 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-2xl transition-all text-slate-400">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg>
+    </button>
+</div>
         <div class="mb-12 bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm transition-colors">
             <div class="flex justify-between items-end mb-4">
                 <div>
@@ -64,7 +81,7 @@
                 </div>
             </form>
         </div>
-
+   
         <div class="flex gap-2 mb-6 bg-slate-100 dark:bg-slate-900/50 p-1.5 rounded-2xl w-fit">
             <button wire:click="$set('filter', 'all')"
                 class="px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all {{ $filter === 'all' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-white shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300' }}">
