@@ -2,6 +2,7 @@
             open: false,
             message: '',
             type: 'success',
+        
             init() {
                 @if(session()->has('notify'))
                     this.showNotification(@json(session('notify')));
