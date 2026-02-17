@@ -97,5 +97,7 @@
                 </div>
             </main>
         </div>
+        {{-- //notifications --}}
+        @livewire('notifications')
     </body>
 </html>

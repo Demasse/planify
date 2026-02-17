@@ -1,5 +1,12 @@
 <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm text-center">
 
+    {{-- <button type="button"
+        x-data
+        x-on:click="$dispatch('notify', { message: 'Le test fonctionne ! 🔔', type: 'success' })"
+        style="background: red; color: white; padding: 10px; border-radius: 8px; margin-bottom: 20px; cursor: pointer; font-weight: bold; border: none;">
+    CLIQUE ICI POUR TESTER LA BULLE
+</button> --}}
+
     <div class="relative inline-block group" wire:key="profile-photo-uploader">
 
         <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-indigo-500/20 shadow-2xl mx-auto relative">

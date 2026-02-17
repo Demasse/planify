@@ -29,7 +29,13 @@ class UserProfile extends Component
             $user->profile_photo_path = $path;
             $user->save(); // <--- Le rouge devrait disparaître ici !
 
-            return redirect(route('profile'));
+            // 5. Préparation de la notification (Message + Son) pour après le rechargement
+            session()->flash('notify', [
+                'message' => 'Photo mise à jour ! 🚀',
+                'type' => 'success'
+            ]);
+
+            //return redirect(route('profile'));
         } catch (\Exception $e) {
             session()->flash('error', 'Erreur : ' . $e->getMessage());
         }
@@ -47,6 +53,12 @@ class UserProfile extends Component
             // Met à jour la base de données (le rouge devrait disparaître maintenant)
             $user->update([
                 'profile_photo_path' => null
+            ]);
+
+            // Notification de suppression
+            session()->flash('notify', [
+                'message' => 'Photo supprimée.',
+                'type' => 'info'
             ]);
         }
 
