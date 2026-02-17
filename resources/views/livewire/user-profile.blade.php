@@ -1,5 +1,6 @@
 <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm text-center">
 
+   {{-- // test la bulle --}}
     {{-- <button type="button"
         x-data
         x-on:click="$dispatch('notify', { message: 'Le test fonctionne ! 🔔', type: 'success' })"
