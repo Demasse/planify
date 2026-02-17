@@ -10,17 +10,26 @@
 
     <div class="relative inline-block group" wire:key="profile-photo-uploader">
 
-        <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-indigo-500/20 shadow-2xl mx-auto relative">
+      <div class="relative group w-32 h-32 mx-auto">
+    <img src="{{ Auth::user()->profile_photo_url }}"
+         alt="Profil"
+         class="w-32 h-32 rounded-full object-cover border-4 border-indigo-500 transition duration-300 group-hover:opacity-75">
 
-            <img src="{{ auth()->user()->getPhotoUrl() }}" class="w-full h-full object-cover">
+    <label for="photo-upload" class="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition duration-300 bg-black/30 rounded-full">
+        <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <input type="file" id="photo-upload" wire:model="photo" class="hidden">
+    </label>
 
-            <div wire:loading wire:target="photo" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center">
-                <svg class="animate-spin h-8 w-8 text-white" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </div>
-        </div>
+    <div wire:loading wire:target="photo" class="absolute inset-0 flex items-center justify-center bg-white/50 rounded-full">
+        <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    </div>
+</div>
 
         <label class="absolute bottom-1 right-1 bg-indigo-600 p-2.5 rounded-2xl shadow-lg cursor-pointer hover:scale-110 transition-all border-4 border-white dark:border-slate-800">
             <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
