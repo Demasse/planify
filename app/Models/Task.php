@@ -12,7 +12,7 @@ class Task extends Model
         'user_id',
         'label',
         'scheduled_at',   // Pour l'heure
-        'scheduled_date', // POUR LE JOUR (C'est ça qui manquait !)
+       // 'scheduled_date', // POUR LE JOUR (C'est ça qui manquait !)
         'is_completed',
     ];
 
