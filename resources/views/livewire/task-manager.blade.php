@@ -114,50 +114,49 @@
             </button>
         </div>
 
-        <div class="grid gap-4">
-        @forelse($tasks as $task)
-            <div wire:key="task-{{ $task->id }}"
-                 class="group flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 dark:hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all {{ $task->is_completed ? 'bg-slate-50/50 dark:bg-slate-800/40' : '' }}">
+   <div class="grid gap-4">
+    @forelse($tasks as $task)
+        <div wire:key="task-{{ $task->id }}"
+             class="group flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 dark:hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all {{ $task->is_completed ? 'bg-slate-50/50 dark:bg-slate-800/40' : '' }}">
 
-                <div class="flex items-center gap-5 min-w-0">
-                    <button wire:click="toggleTask({{ $task->id }})"
-                        class="flex-shrink-0 w-9 h-9 rounded-2xl border-2 flex items-center justify-center transition-all duration-300 {{ $task->is_completed ? 'bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100 dark:shadow-none' : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 hover:border-indigo-500' }}">
-                        @if($task->is_completed)
-                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                            </svg>
-                        @endif
-                    </button>
-
-                    <div class="flex flex-col min-w-0">
-                        <span class="text-[10px] font-black {{ $task->is_completed ? 'text-slate-400 dark:text-slate-600' : 'text-indigo-600 dark:text-indigo-400' }} uppercase tracking-widest">
-                            {{ \Carbon\Carbon::parse($task->scheduled_at)->format('H:i') }}
-                        </span>
-                        <span class="text-slate-700 dark:text-slate-200 font-bold text-lg sm:text-xl truncate transition-all {{ $task->is_completed ? 'line-through opacity-40' : '' }}">
-                            {{ $task->label }}
-                        </span>
-                    </div>
-                </div>
-
-                <button wire:click="deleteTask({{ $task->id }})"
-                    wire:confirm="Supprimer cette mission ?"
-                    class="opacity-0 group-hover:opacity-100 p-3 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all transform hover:rotate-12">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
+            <div class="flex items-center gap-5 min-w-0">
+                <button wire:click="toggleTask({{ $task->id }})"
+                    class="flex-shrink-0 w-9 h-9 rounded-2xl border-2 flex items-center justify-center transition-all duration-300 {{ $task->is_completed ? 'bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100 dark:shadow-none' : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 hover:border-indigo-500' }}">
+                    @if($task->is_completed)
+                        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                    @endif
                 </button>
-            </div>
-        @empty
-            <div class="text-center py-20 bg-white dark:bg-slate-800 rounded-[3rem] border border-dashed border-slate-200 dark:border-slate-700 transition-colors">
-                <div class="w-20 h-20 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-500 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
-                    ✨
+
+                <div class="flex flex-col min-w-0">
+                    <span class="text-[10px] font-black {{ $task->is_completed ? 'text-slate-400 dark:text-slate-600' : 'text-indigo-600 dark:text-indigo-400' }} uppercase tracking-widest">
+                        {{ \Carbon\Carbon::parse($task->scheduled_at)->format('H:i') }}
+                    </span>
+                    <span class="text-slate-700 dark:text-slate-200 font-bold text-lg sm:text-xl truncate transition-all {{ $task->is_completed ? 'line-through opacity-40' : '' }}">
+                        {{ $task->label }}
+                    </span>
                 </div>
-                <h3 class="text-xl font-black text-slate-800 dark:text-white tracking-tight">C'est le calme plat...</h3>
-                <p class="text-slate-400 dark:text-slate-500 font-medium max-w-xs mx-auto mt-2">Aucune tâche ne correspond à ce filtre.</p>
             </div>
-        @endforelse
+
+            <button wire:click="deleteTask({{ $task->id }})"
+                wire:confirm="Supprimer cette mission ?"
+                class="opacity-0 group-hover:opacity-100 p-3 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all transform hover:rotate-12">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </button>
         </div>
-    </div>
+    @empty
+        <div class="text-center py-20 bg-white dark:bg-slate-800 rounded-[3rem] border border-dashed border-slate-200 dark:border-slate-700 transition-colors">
+            <div class="w-20 h-20 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-500 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
+                ✨
+            </div>
+            <h3 class="text-xl font-black text-slate-800 dark:text-white tracking-tight">C'est le calme plat...</h3>
+            <p class="text-slate-400 dark:text-slate-500 font-medium max-w-xs mx-auto mt-2">Aucune tâche pour le moment.</p>
+        </div>
+    @endforelse
+</div>
 
     <div x-data="{ show: false, message: '', timeout: null }"
         x-on:notify.window="show = true; message = $event.detail.message; clearTimeout(timeout); timeout = setTimeout(() => show = false, 3000)"

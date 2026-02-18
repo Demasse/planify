@@ -50,6 +50,27 @@ class TaskManager extends Component
     /**
      * Ajout d'une nouvelle tâche
      */
+
+    //   public function addTask()
+    // {
+    //     $this->validate([
+    //         'label' => 'required|min:3',
+    //         'scheduled_at' => 'required',
+    //     ]);
+
+    //     Task::create([
+    //         'user_id' => Auth::id(),
+    //         'label' => $this->label,
+    //         'scheduled_at' => $this->scheduled_at,
+    //         // On s'assure que c'est une string propre format date
+    //         'scheduled_date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
+    //         'is_completed' => false,
+    //     ]);
+
+    //     $this->reset(['label', 'scheduled_at']);
+    //     $this->dispatch('notify', message: 'Tâche planifiée avec succès !', type: 'success');
+    // }
+
     public function addTask()
     {
         $this->validate([
@@ -61,13 +82,13 @@ class TaskManager extends Component
             'user_id' => Auth::id(),
             'label' => $this->label,
             'scheduled_at' => $this->scheduled_at,
-            'scheduled_date' => $this->selectedDate, // La tâche est liée au jour visualisé
+            // On s'assure que c'est une string propre format date
+            'scheduled_date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
             'is_completed' => false,
         ]);
 
         $this->reset(['label', 'scheduled_at']);
-
-        $this->dispatch('notify', message: 'Tâche planifiée avec succès !');
+         $this->dispatch('notify', message: 'Tâche planifiée avec succès !', type: 'success');
     }
 
     /**
