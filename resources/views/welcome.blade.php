@@ -280,9 +280,9 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-[#2D3047] rounded-lg flex items-center justify-center">
+                    {{-- <div class="w-8 h-8 bg-[#2D3047] rounded-lg flex items-center justify-center">
                         <div class="w-2 h-2 bg-white rounded-sm"></div>
-                    </div>
+                    </div> --}}
                     <span class="font-semibold text-[#2D3047]">Planify</span>
                     <span class="text-sm text-[#2D3047]/40 ml-2">© 2026</span>
                 </div>
