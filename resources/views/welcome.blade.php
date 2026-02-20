@@ -284,7 +284,7 @@
                         <div class="w-2 h-2 bg-white rounded-sm"></div>
                     </div>
                     <span class="font-semibold text-[#2D3047]">Planify</span>
-                    <span class="text-sm text-[#2D3047]/40 ml-2">© 2024</span>
+                    <span class="text-sm text-[#2D3047]/40 ml-2">© 2026</span>
                 </div>
 
                 <div class="flex gap-8">

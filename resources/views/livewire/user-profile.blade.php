@@ -1,6 +1,7 @@
-<div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm text-center">
+<div
+    class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm text-center">
 
-   {{-- // test la bulle --}}
+    {{-- // test la bulle --}}
     {{-- <button type="button"
         x-data
         x-on:click="$dispatch('notify', { message: 'Le test fonctionne ! 🔔', type: 'success' })"
@@ -11,7 +12,8 @@
     <div class="relative inline-block group" wire:key="profile-photo-uploader">
 
       <div class="relative group w-32 h-32 mx-auto">
-    <img src="{{ Auth::user()->profile_photo_url }}"
+    {{-- MODIFICATION ICI : On vérifie si le chemin existe --}}
+    <img src="{{ auth()->user()->profile_photo_path ? asset('storage/' . auth()->user()->profile_photo_path) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
          alt="Profil"
          class="w-32 h-32 rounded-full object-cover border-4 border-indigo-500 transition duration-300 group-hover:opacity-75">
 
@@ -20,7 +22,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        <input type="file" id="photo-upload" wire:model="photo" class="hidden">
+        <input type="file" id="photo-upload" wire:model="photo" class="hidden" accept="image/*">
     </label>
 
     <div wire:loading wire:target="photo" class="absolute inset-0 flex items-center justify-center bg-white/50 rounded-full">
@@ -30,11 +32,13 @@
         </svg>
     </div>
 </div>
-
-        <label class="absolute bottom-1 right-1 bg-indigo-600 p-2.5 rounded-2xl shadow-lg cursor-pointer hover:scale-110 transition-all border-4 border-white dark:border-slate-800">
+        <label
+            class="absolute bottom-1 right-1 bg-indigo-600 p-2.5 rounded-2xl shadow-lg cursor-pointer hover:scale-110 transition-all border-4 border-white dark:border-slate-800">
             <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
 
             <input type="file" wire:model="photo" id="photo" class="hidden" accept="image/*">
@@ -50,8 +54,9 @@
         <p class="text-slate-400 dark:text-slate-500 font-medium text-sm">{{ auth()->user()->email }}</p>
     </div>
 
-    @if(auth()->user()->profile_photo_path)
-        <button wire:click="deletePhoto" class="mt-6 text-xs font-black text-red-500 uppercase tracking-widest hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2 rounded-xl transition-all">
+    @if (auth()->user()->profile_photo_path)
+        <button wire:click="deletePhoto"
+            class="mt-6 text-xs font-black text-red-500 uppercase tracking-widest hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2 rounded-xl transition-all">
             Supprimer la photo
         </button>
     @endif
