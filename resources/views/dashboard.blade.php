@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout >
     <div class="space-y-8 p-4">
         <div class="text-center sm:text-left">
             <h2 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -37,5 +37,7 @@
 
             </div>
         </div>
+
     </div>
+
 </x-app-layout>
