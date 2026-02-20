@@ -23,63 +23,49 @@ class UserProfile extends Component
             /** @var \App\Models\User $user */
             $user = Auth::user();
 
-            $name = 'avatar-' . $user->id . '.' . $this->photo->getClientOriginalExtension();
+            // 1. On prépare un nom UNIQUE avec le timestamp
+            $name = 'avatar-' . $user->id . '-' . now()->timestamp . '.' . $this->photo->getClientOriginalExtension();
+
+            // 2. On supprime l'ANCIENNE photo du serveur si elle existe
+            if ($user->profile_photo_path) {
+                Storage::disk('public')->delete($user->profile_photo_path);
+            }
+
+            // 3. On stocke la NOUVELLE photo
             $path = $this->photo->storeAs('profile-photos', $name, 'public');
 
+            // 4. Mise à jour de la base de données
             $user->profile_photo_path = $path;
             $user->save();
 
-            // On envoie le signal DIRECTEMENT au navigateur
+            // Signal de succès pour ta bulle de notification
             $this->dispatch('notify', message: 'Photo mise à jour ! 🚀', type: 'success');
 
-            // Au lieu d'un redirect PHP, on va dire au navigateur de se rafraîchir dans 1 seconde
-            // Cela laisse le temps à la bulle d'apparaître et au son de jouer
+            // Rafraîchissement forcé après 1s pour que le navigateur charge le nouveau nom
             $this->js('setTimeout(() => { window.location.reload() }, 1000)');
         } catch (\Exception $e) {
             $this->dispatch('notify', message: 'Erreur : ' . $e->getMessage(), type: 'error');
         }
     }
-    // public function deletePhoto()
-    // {
-    //     /** @var \App\Models\User $user */ // <-- Cette ligne dit à VS Code : "T'inquiète, c'est mon modèle User"
-    //     $user = Auth::user();
 
-    //     if ($user->profile_photo_path) {
-    //         // Supprime le fichier physique
-    //         Storage::disk('public')->delete($user->profile_photo_path);
-
-    //         // Met à jour la base de données (le rouge devrait disparaître maintenant)
-    //         $user->update([
-    //             'profile_photo_path' => null
-    //         ]);
-
-    //         // Notification de suppression
-    //         session()->flash('notify', [
-    //             'message' => 'Photo supprimée.',
-    //             'type' => 'info'
-    //         ]);
-    //     }
-
-    //     return redirect(route('profile'));
-    // }
     public function deletePhoto()
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
         if ($user->profile_photo_path) {
-            // 1. Supprime le fichier physique
+            // Supprime le fichier physique
             Storage::disk('public')->delete($user->profile_photo_path);
 
-            // 2. Met à jour la base de données
+            // Met à jour la base de données
             $user->update([
                 'profile_photo_path' => null
             ]);
 
-            // 3. Envoie le signal de notification immédiatement
+            // Notification
             $this->dispatch('notify', message: 'Photo supprimée avec succès !', type: 'info');
 
-            // 4. Rafraîchit la page après 1 seconde pour voir le résultat
+            // Rafraîchit pour afficher l'avatar par défaut
             $this->js('setTimeout(() => { window.location.reload() }, 1000)');
         }
     }
