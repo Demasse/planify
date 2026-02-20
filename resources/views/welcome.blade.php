@@ -103,9 +103,10 @@
                             Dashboard
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm font-medium text-[#2D3047]/70 hover:text-[#419D78] transition">Connexion</a>
-                        <a href="{{ route('register') }}" class="bg-[#2D3047] text-white text-sm px-6 py-2.5 rounded-xl hover:bg-[#419D78] transition shadow-lg shadow-[#2D3047]/20">
-                            Commencer
+                        {{-- <a href="{{ route('login') }}" class="text-sm font-medium text-[#2D3047]/70 hover:text-[#419D78] transition">Connexion</a> --}}
+                        {{-- <a href="{{ route('login') }}" class="text-sm font-medium text-[#2D3047]/70 hover:text-[#419D78] transition">Connexion</a> --}}
+                        <a href="{{ route('login') }}" class="bg-[#2D3047] text-white text-sm px-6 py-2.5 rounded-xl hover:bg-[#419D78] transition shadow-lg shadow-[#2D3047]/20">
+                            Connexion
                         </a>
                     @endauth
                 </div>
