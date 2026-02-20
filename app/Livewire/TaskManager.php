@@ -6,42 +6,45 @@ use Livewire\Component;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Livewire\Attributes\On; // <--- MODIFICATION ICI : Importation pour l'écouteur d'événements
 
 class TaskManager extends Component
 {
     public $label = '';
     public $scheduled_at = '';
     public $filter = 'all';
-    public $selectedDate; // Stocke la date affichée (format YYYY-MM-DD)
+    public $selectedDate;
 
     /**
-     * Initialisation au chargement du composant
+     * MODIFICATION ICI : Écouteur d'événement
+     * Cette fonction se déclenche dès que le calendrier envoie 'date-updated'
      */
+    #[On('date-updated')]
+    public function updateSelectedDate($date)
+    {
+        $this->selectedDate = $date;
+        // Le rendu (render) se lancera automatiquement, filtrant les tâches
+        // et affichant une "page blanche" s'il n'y a rien pour cette date.
+    }
+
     public function mount()
     {
-        // Par défaut, on affiche les tâches d'aujourd'hui
         $this->selectedDate = Carbon::today()->toDateString();
     }
 
     /**
-     * Navigation vers le jour précédent
+     * Navigation manuelle (via les flèches du TaskManager)
      */
     public function previousDay()
     {
         $this->selectedDate = Carbon::parse($this->selectedDate)->subDay()->toDateString();
     }
 
-    /**
-     * Navigation vers le jour suivant
-     */
     public function nextDay()
     {
         $this->selectedDate = Carbon::parse($this->selectedDate)->addDay()->toDateString();
     }
 
-    /**
-     * Retour rapide à aujourd'hui
-     */
     public function goToToday()
     {
         $this->selectedDate = Carbon::today()->toDateString();
@@ -49,28 +52,8 @@ class TaskManager extends Component
 
     /**
      * Ajout d'une nouvelle tâche
+     * Note : Elle sera automatiquement liée à la date choisie sur le calendrier
      */
-
-    //   public function addTask()
-    // {
-    //     $this->validate([
-    //         'label' => 'required|min:3',
-    //         'scheduled_at' => 'required',
-    //     ]);
-
-    //     Task::create([
-    //         'user_id' => Auth::id(),
-    //         'label' => $this->label,
-    //         'scheduled_at' => $this->scheduled_at,
-    //         // On s'assure que c'est une string propre format date
-    //         'scheduled_date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
-    //         'is_completed' => false,
-    //     ]);
-
-    //     $this->reset(['label', 'scheduled_at']);
-    //     $this->dispatch('notify', message: 'Tâche planifiée avec succès !', type: 'success');
-    // }
-
     public function addTask()
     {
         $this->validate([
@@ -82,18 +65,15 @@ class TaskManager extends Component
             'user_id' => Auth::id(),
             'label' => $this->label,
             'scheduled_at' => $this->scheduled_at,
-            // On s'assure que c'est une string propre format date
+            // Utilise la date actuellement sélectionnée (cliquée sur le calendrier)
             'scheduled_date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
             'is_completed' => false,
         ]);
 
         $this->reset(['label', 'scheduled_at']);
-         $this->dispatch('notify', message: 'Tâche planifiée avec succès !', type: 'success');
+        $this->dispatch('notify', message: 'Tâche planifiée avec succès !', type: 'success');
     }
 
-    /**
-     * Cocher / Décocher une tâche
-     */
     public function toggleTask($taskId)
     {
         $task = Task::where('user_id', Auth::id())->findOrFail($taskId);
@@ -105,48 +85,35 @@ class TaskManager extends Component
         $this->dispatch('notify', message: $message);
     }
 
-    /**
-     * Supprimer une tâche
-     */
     public function deleteTask($taskId)
     {
         $task = Task::where('user_id', Auth::id())->findOrFail($taskId);
         $task->delete();
-
         $this->dispatch('notify', message: 'Tâche supprimée.');
     }
-
-    /**
-     * Rendu de la vue
-     */
 
     public $search = '';
 
     public function render()
     {
-        // On commence par la base : les tâches de l'utilisateur connecté
         $query = Task::where('user_id', Auth::id());
 
-        // 1. LOGIQUE DE RECHERCHE
         if (!empty($this->search)) {
-            // Si on cherche, on regarde partout sans filtrer par date
             $query->where('label', 'like', '%' . $this->search . '%');
         } else {
-            // Sinon, on affiche uniquement le jour choisi dans le calendrier
+            // Filtre automatique : on ne voit que les tâches du jour choisi
             $query->whereDate('scheduled_date', $this->selectedDate);
         }
 
-        // 2. Application du filtre d'état (Toutes, À faire, Faites)
         if ($this->filter === 'todo') {
             $query->where('is_completed', false);
         } elseif ($this->filter === 'completed') {
             $query->where('is_completed', true);
         }
 
-        // On récupère les résultats triés par heure
         $tasks = $query->orderBy('scheduled_at', 'asc')->get();
 
-        // 3. Calcul de la progression (Toujours basée sur le jour sélectionné)
+        // Calcul de progression dynamique basé sur la date du calendrier
         $totalToday = Task::where('user_id', Auth::id())
             ->whereDate('scheduled_date', $this->selectedDate)
             ->count();
