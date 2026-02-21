@@ -76,22 +76,34 @@ class TaskManager extends Component
 
     public function toggleTask($taskId)
     {
-        $task = Task::findOrFail($taskId);
+        $task = Task::where('user_id', Auth::id())->findOrFail($taskId);
         $user = Auth::user();
 
-        $task->update(['is_completed' => !$task->is_completed]);
+        // On inverse l'état de la tâche
+        $task->is_completed = !$task->is_completed;
+        $task->save();
 
         if ($task->is_completed) {
+            // --- CAS 1 : On vient de FINIR la tâche ---
             $user->increment('xp', 10);
+
             $progress = $user->xp % 100;
 
-            // On ne déclenche les sons que pour 50% et 100%
             if ($progress == 0 && $user->xp > 0) {
                 $user->increment('level');
-                $this->dispatch('notify', message: 'LEVEL_UP'); // Signal pour 100%
+                $this->dispatch('notify', message: 'LEVEL_UP');
             } elseif ($progress == 50) {
-                $this->dispatch('notify', message: 'HALF_WAY'); // Signal pour 50%
+                $this->dispatch('notify', message: 'HALF_WAY');
             }
+        } else {
+            // --- CAS 2 : On vient de DÉCOCHER la tâche ---
+            // On retire les 10 XP car le travail n'est plus considéré comme fait
+            if ($user->xp >= 10) {
+                $user->decrement('xp', 10);
+            }
+
+            // Optionnel : Gérer le retour au niveau précédent si l'XP tombe trop bas
+            // Mais en général, dans les jeux, on ne perd pas de niveau, on reste à 0 XP.
         }
     }
 
