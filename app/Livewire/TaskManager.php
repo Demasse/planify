@@ -76,29 +76,23 @@ class TaskManager extends Component
 
     public function toggleTask($taskId)
     {
-        $task = Task::where('user_id', Auth::id())->findOrFail($taskId);
+        $task = Task::findOrFail($taskId);
         $user = Auth::user();
 
-        $task->update([
-            'is_completed' => !$task->is_completed
-        ]);
+        $task->update(['is_completed' => !$task->is_completed]);
 
-        // GAMIFICATION : On donne ou on retire de l'XP
         if ($task->is_completed) {
             $user->increment('xp', 10);
-            $message = 'Bravo ! +10 XP 🎉';
-        } else {
-            $user->decrement('xp', 10);
-            $message = 'Tâche remise à faire.';
-        }
+            $progress = $user->xp % 100;
 
-        // Logique de passage de niveau (ex: tous les 100 XP)
-        if ($user->xp >= $user->level * 100) {
-            $user->increment('level');
-            $this->dispatch('notify', message: "LEVEL UP ! Vous êtes niveau {$user->level} ! 🏆");
+            // On ne déclenche les sons que pour 50% et 100%
+            if ($progress == 0 && $user->xp > 0) {
+                $user->increment('level');
+                $this->dispatch('notify', message: 'LEVEL_UP'); // Signal pour 100%
+            } elseif ($progress == 50) {
+                $this->dispatch('notify', message: 'HALF_WAY'); // Signal pour 50%
+            }
         }
-
-        $this->dispatch('notify', message: $message);
     }
 
     public function deleteTask($taskId)

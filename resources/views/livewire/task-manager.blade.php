@@ -153,32 +153,35 @@
         </div>
     </div>
 
-    <script>
+   <script>
     document.addEventListener('livewire:init', () => {
-        // Son pour une tâche terminée
-        const successSound = new Audio('/sounds/success.mp3');
-        // Son pour le passage de niveau
+        const halfWaySound = new Audio('/sounds/half-way.mp3');
         const levelUpSound = new Audio('/sounds/level-up.mp3');
 
         Livewire.on('notify', (event) => {
-            // Si le message contient "LEVEL UP", on joue le gros son
-            if (event.message.includes('LEVEL UP')) {
+            // PALIER 100% (LEVEL UP)
+            if (event.message === 'LEVEL_UP') {
                 levelUpSound.play();
-
-                // Optionnel : Ajoute une explosion de confettis si tu veux !
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 150,
-                        spread: 70,
-                        origin: { y: 0.6 }
-                    });
-                }
-            } else if (event.message.includes('Bravo')) {
-                // Sinon, c'est juste une tâche cochée
-                successSound.currentTime = 0; // Réinitialise pour pouvoir cliquer vite
-                successSound.play();
+                confetti({
+                    particleCount: 200,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#4f46e5', '#9333ea', '#fbbf24']
+                });
+            }
+            // PALIER 50%
+            else if (event.message === 'HALF_WAY') {
+                halfWaySound.play();
+                // Optionnel: un petit effet visuel plus léger pour 50%
+                confetti({
+                    particleCount: 40,
+                    spread: 50,
+                    origin: { y: 0.8 },
+                    colors: ['#4f46e5']
+                });
             }
         });
     });
+</script>
 </script>
 </div>
