@@ -21,6 +21,10 @@ return new class extends Migration
             $table->integer('xp')->default(0);    // Points d'expérience
             $table->integer('level')->default(1); // Niveau du joueur
             // ---------------------------------------------------
+
+            $table->integer('streak_count')->default(0); // Le nombre de jours consécutifs
+            $table->date('last_activity_date')->nullable(); // Pour savoir quand était la dernière tâche faite
+            
             $table->rememberToken();
             $table->timestamps();
         });
