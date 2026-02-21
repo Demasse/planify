@@ -30,6 +30,7 @@
                 border-bottom: 1px solid rgba(51, 65, 85, 0.5);
             }
         </style>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     </head>
     <body class="bg-[#f8fafc] dark:bg-slate-900 antialiased text-slate-900 dark:text-slate-100 transition-colors duration-500">
 
