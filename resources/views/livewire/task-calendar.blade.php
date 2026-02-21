@@ -1,5 +1,5 @@
 <div class="p-4 sm:p-6 bg-slate-50 dark:bg-slate-900 min-h-screen rounded-[2.5rem]">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
 
         <div class="lg:col-span-2 space-y-6">
 

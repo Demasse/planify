@@ -1,6 +1,37 @@
 <div class="relative min-h-screen transition-colors duration-500">
     <div class="w-full max-w-2xl mx-auto px-4 py-6 sm:py-10">
 
+        <div class="bg-slate-900 dark:bg-slate-800 text-white p-6 rounded-[2.5rem] mb-8 shadow-2xl border-b-4 border-indigo-600 transition-all hover:scale-[1.01]">
+            <div class="flex items-center gap-6">
+
+                <div class="relative">
+                    <div class="w-16 h-16 bg-gradient-to-tr from-indigo-600 to-purple-500 rounded-2xl flex items-center justify-center text-2xl shadow-lg font-black border-2 border-white/10">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
+                    <div class="absolute -bottom-2 -right-2 bg-yellow-500 text-slate-900 px-2 py-1 rounded-lg text-[10px] font-black border-2 border-slate-900 shadow-sm">
+                        LVL {{ Auth::user()->level }}
+                    </div>
+                </div>
+
+                <div class="flex-1">
+                    <div class="flex justify-between mb-2 items-end">
+                        <div>
+                            <h4 class="text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">Héros de la journée</h4>
+                            <p class="text-white font-bold text-lg leading-none">{{ Auth::user()->name }}</p>
+                        </div>
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            {{ Auth::user()->xp % 100 }} / 100 XP
+                        </span>
+                    </div>
+
+                    <div class="h-3 bg-slate-800 dark:bg-slate-900 rounded-full overflow-hidden p-0.5 border border-white/5">
+                        <div class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-700 shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                             style="width: {{ Auth::user()->xp % 100 }}%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex items-center justify-between mb-8 bg-white dark:bg-slate-800 p-2 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
             <button wire:click="previousDay()" class="p-3 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-2xl transition-all text-slate-400">
                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" /></svg>
@@ -94,13 +125,13 @@
             @forelse($tasks as $task)
                 <div wire:key="task-{{ $task->id }}" class="group flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all">
                     <div class="flex items-center gap-5 min-w-0">
-                        <button wire:click="toggleTask({{ $task->id }})" class="flex-shrink-0 w-9 h-9 rounded-2xl border-2 flex items-center justify-center transition-all {{ $task->is_completed ? 'bg-emerald-500 border-emerald-500' : 'border-slate-200' }}">
+                        <button wire:click="toggleTask({{ $task->id }})" class="flex-shrink-0 w-9 h-9 rounded-2xl border-2 flex items-center justify-center transition-all {{ $task->is_completed ? 'bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-500/20' : 'border-slate-200 dark:border-slate-600 hover:border-indigo-500' }}">
                             @if($task->is_completed)
                                 <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
                             @endif
                         </button>
                         <div class="flex flex-col min-w-0">
-                            <span class="text-[10px] font-black uppercase tracking-widest {{ $task->is_completed ? 'text-slate-400' : 'text-indigo-600' }}">
+                            <span class="text-[10px] font-black uppercase tracking-widest {{ $task->is_completed ? 'text-slate-400' : 'text-indigo-600 dark:text-indigo-400' }}">
                                 {{ \Carbon\Carbon::parse($task->scheduled_at)->format('H:i') }}
                             </span>
                             <span class="text-slate-700 dark:text-slate-200 font-bold text-lg truncate {{ $task->is_completed ? 'line-through opacity-40' : '' }}">
@@ -108,7 +139,7 @@
                             </span>
                         </div>
                     </div>
-                    <button wire:click="deleteTask({{ $task->id }})" wire:confirm="Supprimer ?" class="opacity-0 group-hover:opacity-100 p-3 bg-red-50 text-red-500 rounded-xl transition-all">
+                    <button wire:click="deleteTask({{ $task->id }})" wire:confirm="Supprimer ?" class="opacity-0 group-hover:opacity-100 p-3 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-xl transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                     </button>
                 </div>

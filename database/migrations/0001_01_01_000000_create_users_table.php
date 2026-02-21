@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // --- MODIFICATION ICI : Colonnes de Gamification ---
+            $table->integer('xp')->default(0);    // Points d'expérience
+            $table->integer('level')->default(1); // Niveau du joueur
+            // ---------------------------------------------------
             $table->rememberToken();
             $table->timestamps();
         });
